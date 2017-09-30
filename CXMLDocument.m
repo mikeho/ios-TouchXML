@@ -159,6 +159,17 @@ if (outError)
 	*outError = NULL;
 
 NSData *theData = [NSData dataWithContentsOfURL:inURL options:NSUncachedRead error:outError];
+	
+	//添加置换头文件代码
+	    NSString* contentString = [[NSString alloc] initWithData:theData encoding: NSUTF8StringEncoding];
+        
+        if (![contentString containsString: @"xmlns=\"http://www.idpf.org/2007/opf\""] ) {
+            
+          NSString *str3 = [contentString stringByReplacingOccurrencesOfString:@"mlns=\"http://www.idpf.org/2007/opf\"" withString:@"xmlns=\"http://www.idpf.org/2007/opf\""];
+            theData = [str3 dataUsingEncoding:NSUTF8StringEncoding];
+
+        }
+	
 if (theData)
 	{
 	self = [self initWithData:theData encoding:encoding options:inOptions error:outError];
